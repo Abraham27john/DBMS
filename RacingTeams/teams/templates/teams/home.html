@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Racing Teams</title>
+    <link rel="stylesheet" href="{% static 'teams/style.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'teams/favicon.ico' %}">
+</head>
+<body>
+    <h1>Racing Teams</h1>
+    <h2>Drivers</h2>
+    <ul>
+        {% for driver in drivers %}
+            <li>{{ driver.name }} ({{ driver.team }}) - {{ driver.nationality }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Races</h2>
+    <ul>
+        {% for race in races %}
+            <li>{{ race.race_name }} - {{ race.date }} - {{ race.location }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Results</h2>
+    <ul>
+        {% for result in results %}
+            <li>{{ result.driver.name }} - {{ result.race.race_name }} - Position: {{ result.position }} - Points: {{ result.points }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

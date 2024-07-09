@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Racing Team Database Management</title>
+    <style>
+        /* Basic styling for demonstration purposes */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        form {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+        }
+        form input, form select {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin: 5px 0;
+            display: block;
+        }
+        form input[type="submit"] {
+            width: auto;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        .button-group {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .button-group a {
+            text-decoration: none;
+            padding: 8px 20px;
+            margin: 0 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .button-group a:hover {
+            background-color: #45a049;
+        }
+        .error-message {
+            color: red;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Racing Team Database Management</h1>
+
+    <!-- Driver Management Section -->
+    <h2>Drivers</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Nationality</th>
+                <th>Age</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Lewis Hamilton</td>
+                <td>British</td>
+                <td>37</td>
+                <td>
+                    <a href="#">Edit</a> | 
+                    <a href="#">Delete</a>
+                </td>
+            </tr>
+            <!-- Additional rows for other drivers -->
+        </tbody>
+    </table>
+
+    <div class="button-group">
+        <a href="#" onclick="showDriverForm()">Add New Driver</a>
+    </div>
+
+    <!-- Race Management Section -->
+    <h2>Races</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Event</th>
+                <th>Date</th>
+                <th>Location</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Monaco Grand Prix</td>
+                <td>2024-05-26</td>
+                <td>Monaco</td>
+                <td>
+                    <a href="#">Edit</a> | 
+                    <a href="#">Delete</a>
+                </td>
+            </tr>
+            <!-- Additional rows for other races -->
+        </tbody>
+    </table>
+
+    <div class="button-group">
+        <a href="#" onclick="showRaceForm()">Add New Race</a>
+    </div>
+
+    <!-- Form for adding/editing driver details -->
+    <form id="driverForm" style="display: none;" onsubmit="return validateDriverForm()">
+        <h2>Add New Driver</h2>
+        <input type="text" id="driverName" placeholder="Name" required>
+        <input type="text" id="driverNationality" placeholder="Nationality" required>
+        <input type="number" id="driverAge" placeholder="Age" required>
+        <div class="error-message" id="driverError"></div>
+        <div class="button-group">
+            <input type="submit" value="Save Driver">
+        </div>
+    </form>
+
+    <!-- Form for adding/editing race details -->
+    <form id="raceForm" style="display: none;" onsubmit="return validateRaceForm()">
+        <h2>Add New Race</h2>
+        <input type="text" id="raceEvent" placeholder="Event Name" required>
+        <input type="date" id="raceDate" placeholder="Date" required>
+        <input type="text" id="raceLocation" placeholder="Location" required>
+        <div class="error-message" id="raceError"></div>
+        <div class="button-group">
+            <input type="submit" value="Save Race">
+        </div>
+    </form>
+
+    <script>
+        function showDriverForm() {
+            document.getElementById('driverForm').style.display = 'block';
+            document.getElementById('raceForm').style.display = 'none';
+            clearDriverForm();
+            clearRaceFormErrors();
+        }
+
+        function showRaceForm() {
+            document.getElementById('raceForm').style.display = 'block';
+            document.getElementById('driverForm').style.display = 'none';
+            clearRaceForm();
+            clearDriverFormErrors();
+        }
+
+        function clearDriverForm() {
+            document.getElementById('driverName').value = '';
+            document.getElementById('driverNationality').value = '';
+            document.getElementById('driverAge').value = '';
+        }
+
+        function clearRaceForm() {
+            document.getElementById('raceEvent').value = '';
+            document.getElementById('raceDate').value = '';
+            document.getElementById('raceLocation').value = '';
+        }
+
+        function clearDriverFormErrors() {
+            document.getElementById('driverError').innerHTML = '';
+        }
+
+        function clearRaceFormErrors() {
+            document.getElementById('raceError').innerHTML = '';
+        }
+
+        function validateDriverForm() {
+            clearDriverFormErrors();
+            let name = document.getElementById('driverName').value.trim();
+            let nationality = document.getElementById('driverNationality').value.trim();
+            let age = document.getElementById('driverAge').value.trim();
+
+            if (name === '' || nationality === '' || age === '') {
+                document.getElementById('driverError').innerHTML = 'Please fill out all fields.';
+                return false;
+            }
+
+            if (isNaN(age) || parseInt(age) <= 0) {
+                document.getElementById('driverError').innerHTML = 'Please enter a valid age.';
+                return false;
+            }
+
+            // Additional custom validations can be added here
+
+            // If all validations pass, you can submit the form
+            return true;
+        }
+
+        function validateRaceForm() {
+            clearRaceFormErrors();
+            let event = document.getElementById('raceEvent').value.trim();
+            let date = document.getElementById('raceDate').value.trim();
+            let location = document.getElementById('raceLocation').value.trim();
+
+            if (event === '' || date === '' || location === '') {
+                document.getElementById('raceError').innerHTML = 'Please fill out all fields.';
+                return false;
+            }
+
+            // Additional custom validations can be added here
+
+            // If all validations pass, you can submit the form
+            return true;
+        }
+    </script>
+
+</body>
+</html>
